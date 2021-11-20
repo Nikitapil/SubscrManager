@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubscrManager</title>
+</head>
+
+<body>
+  <header class="header">
+      <div class="container header__container">
+          <h1 class="header__title title-logo">SubscrManager</h1>
+          <nav class="header__nav">
+              <ul class="header__nav-list">
+                  <li class="header__nav-item"><button class="registration-btn btn">Зарегистрироваться</button></li>
+                  <li class="header__nav-item"><button class="signin-btn btn">Войти</button></li>
+              </ul>
+          </nav>
+      </div>
+  </header>
+  <main class="main">
+      <section class="description">
+          <div class="description__container container">
+              <p class="description__text"><span class="title-logo description__title">SubscrManager</span> - Инструмент для управления подписками. Храни всю информацию о своих подписках в одном месте. Добавляй, редактируй, удаляй. Контролируй свои расходы на подписки.</p>
+          </div>
+      </section>
+      <section class="subscriptions">
+          <div class="subscriptions__container container">
+              <div class="subscriptions__header">
+                  <input class="subscriptions__checkbox subscriptions__checkbox_all" type="checkbox">
+                  <div class="subscriptions__header-btns"><button class="subscriptions__add-btn btn" title="Новая подписка">Добавить</button></div>
+              </div>
+              <div class="subscriptions__body">
+                  <ul class="subscriptions__list">
+                      <li class="subscriptions__item">
+                          <input type="checkbox" class="subscriptions__checkbox subscriptions__checkbox_item">
+                          <div class="subscriptions__info">
+                              <h3 class="subscriptions__item-name">Netflix</h3>
+                              <a href="#" class="subscriptions__link"><img src="https://logo.clearbit.com/Netflix.com" alt=""></a>
+                          </div>
+                          <p class="subscriptions__item-price" value="10">10$</p>
+                          <div class="subscriptions__item-status subscr-status">
+                              <input checked type="checkbox" id="subscr-status__checkbox" class="subscr-status__checkbox">
+                              <p class="subscr-status__title">Активна</p>
+                              <label class="status-toggler" for="subscr-status__checkbox"><span></span></label>
+                          </div>
+                          <button class="subscriptions__item-del"></button>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </section>
+  </main>
+  <footer class="footer"></footer>
+  <div class="modals hidden">
+      <div class="addmodal hidden">
+          <h2 class="addmodal__title">Добавление подписки</h2>
+          <label for="addmodal__name">Название:</label>
+          <input class="addmodal__name" type="text" id="addmodal__name">
+          <label for="addmodal__site">Сайт:</label>
+          <span class="https-span">https://</span>
+          <input class="addmodal__site" type="text" id="addmodal__site">
+          <label for="addmodal__price">Стоимость:</label>
+          <input class="addmodal__price" type="number" id="addmodal__price">
+          <div class="addmodal__btns">
+              <button class="addmodal__submit btn">Создать</button>
+              <button class="addmodal__cancel btn">Отмена</button>
+          </div>
+      </div>
+  </div>
+  <p class="tooltip tooltip__add hidden">Поля "Название" и "Стоимость" обязательны к заполнению</p>
+</body>
+
+</html>
