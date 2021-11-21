@@ -18,6 +18,7 @@
                   <li class="header__nav-item"><button class="signin-btn btn">Войти</button></li>
               </ul>
           </nav>
+          <p class="header__user hidden">sdcsdcsdcdc</p>
       </div>
   </header>
   <main class="main">
@@ -57,8 +58,8 @@
     </div>
   </footer>
   <div class="modals hidden">
-      <div class="addmodal hidden">
-          <h2 class="addmodal__title">Добавление подписки</h2>
+      <div class="addmodal hidden modal__item">
+          <h2 class="addmodal__title modal__title">Добавление подписки</h2>
           <label for="addmodal__name">Название:</label>
           <input class="addmodal__name" type="text" id="addmodal__name">
           <label for="addmodal__site">Сайт:</label>
@@ -66,13 +67,36 @@
           <input class="addmodal__site" type="text" id="addmodal__site">
           <label for="addmodal__price">Стоимость:</label>
           <input class="addmodal__price" type="number" id="addmodal__price">
-          <div class="addmodal__btns">
+          <div class="addmodal__btns modal__btns">
               <button class="addmodal__submit btn">Создать</button>
               <button class="addmodal__cancel btn">Отмена</button>
           </div>
       </div>
+      <form class="hidden registrationModal modal__item">
+          <h2 class="registration__title modal__title">Регистрация</h2>
+          <label for="registration__mail-input">Ваш E-mail</label>
+          <input type="email" id="registration__mail-input" required class="registration__mail-input">
+          <label for="registration__password-input">Ваш пароль</label>
+          <input type="password" required id="registration__password-input" class="registration__password-input">
+          <div class="registration__btns modal__btns">
+              <button type="submit" class="registration__submit btn">Зарегистрироваться</button>
+              <button type="button" class="registration__cancel btn">Отмена</button>
+          </div>
+      </form>
+      <form class="hidden signInModal modal__item">
+        <h2 class="signInModal__title modal__title">Вход</h2>
+        <label for="signInModal__mail-input">Ваш E-mail</label>
+        <input type="email" id="signInModal__mail-input" required class="signInModal__mail-input">
+        <label for="signInModal__password-input">Ваш пароль</label>
+        <input type="password" required id="signInModal__password-input" class="signInModal__password-input">
+        <div class="signInModal__btns modal__btns">
+            <button type="submit" class="signInModal__submit btn">Войти</button>
+            <button type="button" class="signInModal__cancel btn">Отмена</button>
+        </div>
+    </form>
   </div>
   <p class="tooltip tooltip__add hidden">Поля "Название" и "Стоимость" обязательны к заполнению</p>
+  <p class="tooltip tooltip__registration hidden"></p>
 </body>
 
 </html>
