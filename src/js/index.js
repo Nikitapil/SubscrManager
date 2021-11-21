@@ -11,6 +11,30 @@ const uid = () => {
     const tail = Math.random().toString(36).substr(2)
     return head+tail
 }
+const counter = () => {
+    const totalPrice = document.querySelector('.total__price')
+    const allSubscrs = document.querySelectorAll('.subscriptions__item')
+    if (allSubscrs.length) {
+       let total =  Array.from(Array.from(allSubscrs).filter((item)=> item.querySelector('.subscr-status__checkbox').checked)).map((item)=> item.querySelector('.subscriptions__item-price').dataset.value)
+       if (total.length) {
+       totalPrice.textContent = total.reduce((prev, curr)=> +prev + +curr) + '$'
+       }
+       else {
+        totalPrice.textContent = '0'
+       }
+    }
+    else {
+        totalPrice.textContent = 0
+    }
+}
+const setLocaleStorage = () => {
+    localStorage.setItem('subscrlist', subscrList.innerHTML)
+}
+window.onload = counter
+if (localStorage.getItem('subscrlist')) {
+    subscrList.innerHTML = localStorage.getItem('subscrlist')
+}
+
 document.addEventListener('click', (e)=> {
     let targetEl = e.target
     if (targetEl.closest('.subscriptions__add-btn')) {
@@ -32,7 +56,7 @@ document.addEventListener('click', (e)=> {
             <h3 class="subscriptions__item-name">${titleInput.value}</h3>
             ${siteInput.value ? `<a target="_blank" href="https://${siteInput.value}" class="subscriptions__link"><img src="https://logo.clearbit.com/${siteInput.value}" alt="${siteInput.value}"></a>`: ''}
         </div>
-        <p class="subscriptions__item-price" value="${priceInput.value}">${priceInput.value}$</p>
+        <p class="subscriptions__item-price" data-value="${priceInput.value}">${priceInput.value}$</p>
         <div class="subscriptions__item-status subscr-status">
             <input checked type="checkbox" id="${id}" class="subscr-status__checkbox">
             <p class="subscr-status__title">Активна</p>
@@ -40,6 +64,8 @@ document.addEventListener('click', (e)=> {
         </div>
         <button class="subscriptions__item-del"></button>`
         subscrList.append(newSubscr)
+        counter()
+        setLocaleStorage()
         showModal(addModal)
         titleInput.value = ''
         siteInput.value = ''
@@ -55,10 +81,14 @@ document.addEventListener('click', (e)=> {
     }
     if (targetEl.closest('.subscriptions__item-del')) {
         targetEl.closest('.subscriptions__item').remove()
+        counter()
+        setLocaleStorage()
     }
     if (targetEl.closest('.subscriptions__dellAll')) {
         const checkBoxes = document.querySelectorAll('.subscriptions__checkbox_item')
         Array.from(checkBoxes).filter((item)=> item.checked).forEach((item)=> item.closest('.subscriptions__item').remove())
+        counter()
+        setLocaleStorage()
     }
 })
 document.addEventListener('change', (e) => {
@@ -66,6 +96,8 @@ document.addEventListener('change', (e) => {
     if (targetEl.closest('.subscr-status__checkbox')) {
     let status = targetEl.checked ? 'Активна' : 'Не активна'
     targetEl.nextElementSibling.textContent = status
+    counter()
+    setLocaleStorage()
     }
     if (targetEl.closest('.subscriptions__checkbox_all')) {
         const checkBoxes = document.querySelectorAll('.subscriptions__checkbox_item')
@@ -91,3 +123,4 @@ document.addEventListener('change', (e) => {
         }
     }
 })
+
