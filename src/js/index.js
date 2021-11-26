@@ -3,13 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, set, onValue } from "firebase/database"
 const firebaseConfig = {
-    apiKey: "AIzaSyBi024kgW9yVcA5or8X2Woil8aBRF4dn-Q",
-    authDomain: "subscrmanager.firebaseapp.com",
-    databaseURL: "https://subscrmanager-default-rtdb.firebaseio.com",
-    projectId: "subscrmanager",
-    storageBucket: "subscrmanager.appspot.com",
-    messagingSenderId: "148466132214",
-    appId: "1:148466132214:web:d578c5a48608cde33978d7"
+    //firebaseConfig must be here
   };
   
 const app = initializeApp(firebaseConfig);
@@ -128,6 +122,7 @@ document.addEventListener('click', (e)=> {
       headerNav.innerHTML = `<li class="header__nav-item"><button class="registration-btn btn">Зарегистрироваться</button></li>
                   <li class="header__nav-item"><button class="signin-btn btn">Войти</button></li>`
     regNotification.classList.remove('hidden')
+    subscrList.innerHTML = ''
     }
 })
 //change events
