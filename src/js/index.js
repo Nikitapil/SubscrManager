@@ -1,22 +1,25 @@
 import '../style/style.scss'
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import 'firebase/auth'
-import 'firebase/database'
+import { getDatabase, ref, set, onValue } from "firebase/database"
 const firebaseConfig = {
     apiKey: "AIzaSyBi024kgW9yVcA5or8X2Woil8aBRF4dn-Q",
     authDomain: "subscrmanager.firebaseapp.com",
+    databaseURL: "https://subscrmanager-default-rtdb.firebaseio.com",
     projectId: "subscrmanager",
     storageBucket: "subscrmanager.appspot.com",
     messagingSenderId: "148466132214",
     appId: "1:148466132214:web:d578c5a48608cde33978d7"
   };
+  
 const app = initializeApp(firebaseConfig);
+const database = getDatabase();
 const auth = getAuth();
 const addModal = document.querySelector('.addmodal')
 const subscrList = document.querySelector('.subscriptions__list')
 const regModal = document.querySelector('.registrationModal')
 const signInModal = document.querySelector('.signInModal')
+const regNotification = document.querySelector('.subscription__notification')
 const showModal = (modal) => {
     const modalContainer = document.querySelector('.modals')
     modalContainer.classList.toggle('hidden')
@@ -40,16 +43,20 @@ const counter = () => {
        }
     }
     else {
-        totalPrice.textContent = 0
+        totalPrice.textContent = '0'
     }
 }
-const setLocaleStorage = () => {
-    localStorage.setItem('subscrlist', subscrList.innerHTML)
+const writeData = (userData) => {
+    const user = auth.currentUser
+    set(ref(database, 'users/' + user.uid), {
+        userSubscrs: userData
+      });
 }
+
+
+
 window.onload = counter
-if (localStorage.getItem('subscrlist')) {
-    subscrList.innerHTML = localStorage.getItem('subscrlist')
-}
+
 
 document.addEventListener('click', (e)=> {
     let targetEl = e.target
@@ -81,8 +88,8 @@ document.addEventListener('click', (e)=> {
         <button class="subscriptions__item-del"></button>`
         subscrList.append(newSubscr)
         counter()
-        setLocaleStorage()
         showModal(addModal)
+        writeData(subscrList.innerHTML)
         titleInput.value = ''
         siteInput.value = ''
         priceInput.value = ''
@@ -98,13 +105,13 @@ document.addEventListener('click', (e)=> {
     if (targetEl.closest('.subscriptions__item-del')) {
         targetEl.closest('.subscriptions__item').remove()
         counter()
-        setLocaleStorage()
+        writeData(subscrList.innerHTML)
     }
     if (targetEl.closest('.subscriptions__dellAll')) {
         const checkBoxes = document.querySelectorAll('.subscriptions__checkbox_item')
         Array.from(checkBoxes).filter((item)=> item.checked).forEach((item)=> item.closest('.subscriptions__item').remove())
         counter()
-        setLocaleStorage()
+        writeData(subscrList.innerHTML)
     }
     if (targetEl.closest('.registration-btn')|| targetEl.closest('.registration__cancel')) {
         showModal(regModal)
@@ -116,9 +123,11 @@ document.addEventListener('click', (e)=> {
         signOut(auth)
         const headerNav = document.querySelector('.header__nav-list')
         const userMail = document.querySelector('.header__user')
+        userMail.textContent = ''
         userMail.classList.add('hidden')
       headerNav.innerHTML = `<li class="header__nav-item"><button class="registration-btn btn">Зарегистрироваться</button></li>
                   <li class="header__nav-item"><button class="signin-btn btn">Войти</button></li>`
+    regNotification.classList.remove('hidden')
     }
 })
 //change events
@@ -127,8 +136,9 @@ document.addEventListener('change', (e) => {
     if (targetEl.closest('.subscr-status__checkbox')) {
     let status = targetEl.checked ? 'Активна' : 'Не активна'
     targetEl.nextElementSibling.textContent = status
+    targetEl.checked ? targetEl.setAttribute('checked','checked') : targetEl.removeAttribute('checked')
     counter()
-    setLocaleStorage()
+    writeData(subscrList.innerHTML)
     }
     if (targetEl.closest('.subscriptions__checkbox_all')) {
         const checkBoxes = document.querySelectorAll('.subscriptions__checkbox_item')
@@ -220,8 +230,16 @@ onAuthStateChanged(auth, (user) => {
       const userMail = document.querySelector('.header__user')
       userMail.textContent = user.email
       userMail.classList.remove('hidden')
+      regNotification.classList.add('hidden')
+      const Usersubscr = ref(database, 'users/' + user.uid)
+      onValue(Usersubscr, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            subscrList.innerHTML = data.userSubscrs
+            counter()
+        }
+      });
     } else {
-      // User is signed out
-      // ...
+        
     }
   });

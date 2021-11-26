@@ -142,6 +142,10 @@ body {
 .subscriptions__checkbox {
   width: 25px;
   height: 25px;
+  @media (max-width: 475px) {
+    width: 15px;
+    height: 15px;
+  }
 }
 .subscriptions__body {
   min-height: 60px;
@@ -150,16 +154,27 @@ body {
   padding: 10px;
 }
 .subscriptions__item {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 25px 200px auto 120px 30px;
   gap: 5px;
   align-items: center;
+  justify-content: space-between;
+  @media (max-width: 475px) {
+    grid-template-columns: 15px 130px auto 90px 30px;
+  }
 }
 .subscriptions__item-name,
 .subscriptions__item-price {
   font-size: 24px;
   line-height: 37px;
   color: #3b4a6b;
+}
+.subscriptions__item-name {
+  word-wrap: break-word;
+  margin-right: 5px;
+  @media (max-width: 475px) {
+    font-size: 16px;
+  }
 }
 .subscriptions__info {
   display: flex;
@@ -175,6 +190,9 @@ body {
   font-size: 18px;
   font-weight: 500;
   transition: 0.4s;
+  @media (max-width: 475px) {
+    font-size: 14px;
+  }
 }
 
 .status-toggler {
@@ -344,6 +362,7 @@ body {
   user-select: none;
   text-align: center;
   margin-bottom: 15px;
+  color: #25468a;
 }
 .total__price {
   width: 200px;
@@ -351,7 +370,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 20px solid #f7ba0e;
+  border: 20px solid #25468a;
   margin-bottom: 10px;
   border-radius: 50%;
   font-size: 38px;
@@ -405,4 +424,10 @@ body {
 }
 .hidden {
   display: none;
+}
+.subscription__notification {
+  font-size: 16px;
+  line-height: 28px;
+  color: #ff0000;
+  text-align: right;
 }
